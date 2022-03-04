@@ -132,6 +132,8 @@ def get_preprocessed_data():
       x = []
       y_confirmed = []
       y_deaths = []
+      y_confirmed_change = []
+      y_deaths_change = []
 
       for i in range(0, timestep, slide_step):
           if i+history_window+pred_window-1 >= timestep or i+history_window >= timestep:
@@ -139,32 +141,45 @@ def get_preprocessed_data():
           x.append(data[:, i:i+history_window, :].reshape((n_loc, history_window*n_feat)))
           y_confirmed.append(data[:, i+history_window:i+history_window+pred_window, 0].reshape((n_loc, pred_window)))
           y_deaths.append(data[:, i+history_window:i+history_window+pred_window, 1].reshape((n_loc, pred_window)))
+          y_confirmed_change.append(data[:, i+history_window:i+history_window+pred_window, 2].reshape((n_loc, pred_window)))
+          y_deaths_change.append(data[:, i+history_window:i+history_window+pred_window, 3].reshape((n_loc, pred_window)))
 
       # Change shape from (# timesteps, # states/locations, # features) to (# states/locations, # timesteps, # features)
       x = np.array(x, dtype=np.float32).transpose((1, 0, 2))
       y_confirmed = np.array(y_confirmed, dtype=np.float32).transpose((1, 0, 2))
       y_deaths = np.array(y_deaths, dtype=np.float32).transpose((1, 0, 2))
-      
-      return x, y_confirmed, y_deaths
+      y_confirmed_change = np.array(y_confirmed_change, dtype=np.float32).transpose((1, 0, 2))
+      y_deaths_change = np.array(y_deaths_change, dtype=np.float32).transpose((1, 0, 2))
 
-    train_x, train_y_confirmed, train_y_deaths = prepare_data(train_feat)
-    val_x, val_y_confirmed, val_y_deaths = prepare_data(val_feat)
-    test_x, test_y_confirmed, test_y_deaths = prepare_data(test_feat)
+      return x, y_confirmed, y_deaths, y_confirmed_change, y_deaths_change
+
+    train_x, train_y_confirmed, train_y_deaths, train_y_confirmed_change, train_y_deaths_change = prepare_data(train_feat)
+    val_x, val_y_confirmed, val_y_deaths, val_y_confirmed_change, val_y_deaths_change = prepare_data(val_feat)
+    test_x, test_y_confirmed, test_y_deaths, test_y_confirmed_change, test_y_deaths_change = prepare_data(test_feat)
     ##############################################################################################################################################
     """
     Package/organize preprocessed data together into a dictionary called "preprocessed_data"
     """
     training_variables = {'train_x':train_x, 
                           'train_y_confirmed':train_y_confirmed,
-                          'train_y_deaths':train_y_deaths}
+                          'train_y_deaths':train_y_deaths,
+                          'train_y_confirmed_change':train_y_confirmed_change,
+                          'train_y_deaths_change':train_y_deaths_change
+                          }
 
     validation_variables = {'val_x':val_x, 
                             'val_y_confirmed':val_y_confirmed,
-                            'val_y_deaths':val_y_deaths}
+                            'val_y_deaths':val_y_deaths,
+                            'val_y_confirmed_change':val_y_confirmed_change,
+                            'val_y_deaths_change':val_y_deaths_change
+                            }
 
     testing_variables = {'test_x':test_x, 
                         'test_y_confirmed':test_y_confirmed,
-                        'test_y_deaths':test_y_deaths}
+                        'test_y_deaths':test_y_deaths,
+                        'test_y_confirmed_change':test_y_confirmed_change,
+                        'test_y_deaths_change':test_y_deaths_change
+                        }
 
     preprocessed_data = {
         'training_variables':training_variables,
