@@ -10,13 +10,14 @@ from utils import get_data_location, download_data
 
 class GenerateTrainingData:
 
-    def __init__(self):
+    def __init__(self, save_file_path):
         self.df = None
         self.url_base = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/" \
                         f"csse_covid_19_daily_reports_us/"
         self.common_columns = ["state", "latitude", "longitude", "fips", "date_today", "confirmed", "deaths",
                                "recovered",
                                "active", "hospitalization"]
+        self.save_file_path = save_file_path
 
     def download_single_file(self, date):
         url = self.url_base + "/" + f"{date}.csv"
@@ -53,5 +54,5 @@ class GenerateTrainingData:
                 temp.loc[:, col] = t[1:]
             df.append(temp)
         df = pd.concat(df, axis=0)
-        df.to_pickle(get_data_location('state_covid_data.pickle'))
+        df.to_pickle(get_data_location(self.save_file_path))
         return df
