@@ -1,0 +1,60 @@
+JHU OLD DATA CALCULATIONS: 2020-05-01 to 2020-12-01
+
+STAN 50 EPOCHS:
+	MSE: 422452352.0
+	MAE: 10121.361328125
+	TIME: 0.0 hours:25.0 minutes:59.541184425354004 seconds = 25*60 + 59.54118 seconds = 1559.54118 seconds total
+	TIME/EPOCH: 31.1908236 seconds
+
+STAN 1K EPOCHS:
+	MSE: 404357888.0 
+	MAE: 9545.2216796875 
+	TIME: 4.0 hours:30.0 minutes:49.09415626525879 seconds = 4*60*60 + 30*60 + 49.094 seconds = 16249.094 seconds total
+	TIME/EPOCH: 16.249094 seconds
+
+COVID FORECASTER 50 EPOCHS:
+	MSE: 367251520.0
+	MAE: 9820.939453125
+	TIME: 0.0 hours:0.0 minutes:27.141178131103516 seconds = 27.141178 seconds
+	TIME/EPOCH: 0.54282356 seconds
+
+COVID FORECASTER 1000 EPOCHS:
+	MSE: 277227712.0
+	MAE: 6635.75830078125
+	TIME: 0.0 hours:6.0 minutes:50.026517391204834 seconds = 6*60+50.026517 seconds = 410.026517 seconds
+	TIME/EPOCH: 0.410026517
+
+(31.1908236 - 0.54282356)/31.1908236 = 0.98259669 decrease in time/epoch of COVID Forecaster vs STAN for 50 epochs
+(16.249094 - 0.410026517)/16.249094 = 0.974766192 decrease in time/epoch of COVID Forecaster vs STAN for 1k epochs
+
+(422452352.0 - 367251520.0)/422452352.0 = 0.130667593 decrease MSE for COVID Forecaster vs STAN for 50 epochs
+(404357888.0 - 277227712.0)/404357888.0 = 0.314400139 decrease MSE for COVID Forecaster vs STAN for 1000 epochs
+(404357888.0 - 277227712.0)/404357888.0 = 0.314400139 decrease MSE for COVID Forecaster's best case in comparison to STAN's best case
+
+(10121.361328125 - 9820.939453125)/10121.361328125 = 0.02968196325 decrease MAE for COVID Forecaster vs STAN for 50 epochs
+(9545.2216796875 - 6635.75830078125)/9545.2216796875 = 0.30480836135 decrease MAE for COVID Forecaster vs STAN for 1000 epochs
+(9545.2216796875 - 6635.75830078125)/9545.2216796875 = 0.304808361 decrease MAE for COVID Forecaster's best case in comparison to STAN's best case
+
+===========================================================
+JHU NEW DATA CALCULATIONS: 2020-05-01 to 2022-03-07
+
+Standard GCN 1000 Epochs: 
+	MSE: 5183366496256.0 = 5.1833664962560e12
+	MAE: 1512013.125 = 1.512013125e6
+	File: train_v3.5_new_data_standard_GCN.ipynb
+
+COVID Forecaster No skip connections 1000 Epochs: 
+	MSE: 2431431737344.0 = 2.4314317373440e12 
+	MAE: 978706.625 = 9.78706625e5 
+	File: train_v3.4_new_data_COVID_Forecaster_no_skip_connections.ipynb
+
+COVID Forecaster full (with skip connections) 1000 Epochs: 
+	MSE: 11941960704.0 = 1.19419607040e10 
+	MAE: 70670.78125 = 7.067078125e4 
+	File: train_v3.3_new_data_COVID_Forecaster_full.ipynb
+
+
+COVID Forecaster Full vs standard GCN
+(5183366496256.0 - 11941960704.0)/5183366496256.0 = 0.997696099 decrease in MSE
+(1512013.125 - 70670.78125)/1512013.125 = 0.95326047103 decrease in MAE
+
